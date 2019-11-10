@@ -41,6 +41,8 @@ data = r.json()
 if r.status_code == 200:
     consensus_addresses = []
     for pre_commits_info in data['block']['last_commit']['precommits']:
+        if pre_commits_info is None:
+            continue
         consensus_addresses.append(pre_commits_info['validator_address'])
     if validator_address not in consensus_addresses:
         slack.post(text='The node has not participates in the consensus. \n'
